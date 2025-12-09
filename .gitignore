@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
@@ -205,3 +206,21 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+=======
+# Python cache
+__pycache__/
+*.pyc
+
+# Build artifacts
+build/
+dist/
+*.spec
+*.pkg
+*.toc
+*.pyz
+*.zip
+
+# Logs
+*.log
+hunter_log.txt
+>>>>>>> 58fb65b (Add .gitignore to ignore build artifacts)

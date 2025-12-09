@@ -1,0 +1,3 @@
+2025-12-09 18:58:56,075 | INFO | Bounce detected | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_x10_2.jpg | Score=704
+2025-12-09 18:59:21,377 | INFO | Clicked | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_x10_2.jpg
+

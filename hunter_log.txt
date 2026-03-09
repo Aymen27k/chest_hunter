@@ -31,3 +31,63 @@
 2026-03-02 16:13:37,593 | INFO | Clicked | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_x5.jpg
 2026-03-02 16:18:38,530 | INFO | Bounce confirmed via streak | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/still_chest_x3.jpg | Score=2879
 2026-03-02 16:18:39,132 | INFO | Clicked | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/still_chest_x3.jpg
+2026-03-02 17:09:28,993 | INFO | Bounce confirmed via streak | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_x10.jpg | Score=3980
+2026-03-02 17:09:29,894 | INFO | Clicked | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_x10.jpg
+2026-03-02 17:18:56,116 | INFO | Bounce confirmed via streak | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_regular.jpg | Score=1526
+2026-03-02 17:18:56,725 | INFO | Clicked | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_regular.jpg
+2026-03-02 17:33:28,589 | INFO | Bounce confirmed via streak | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/still_chest_x3.jpg | Score=728
+2026-03-02 17:33:29,280 | INFO | Clicked | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/still_chest_x3.jpg
+2026-03-02 20:45:08,384 | INFO | Bounce confirmed via streak | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_x10.jpg | Score=729
+2026-03-02 20:45:09,202 | INFO | Clicked | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_x10.jpg
+2026-03-02 20:45:47,279 | INFO | Bounce confirmed via streak | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_x10.jpg | Score=753
+2026-03-02 20:45:48,049 | INFO | Clicked | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_x10.jpg
+2026-03-02 20:53:10,805 | INFO | Bounce confirmed via streak | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_regular.jpg | Score=574
+2026-03-02 20:53:11,506 | INFO | Clicked | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_regular.jpg
+2026-03-02 21:03:23,262 | INFO | Bounce confirmed via streak | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_regular.jpg | Score=1275
+2026-03-02 21:03:23,768 | INFO | Clicked | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_regular.jpg
+2026-03-02 21:04:49,043 | INFO | Bounce confirmed via streak | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_regular.jpg | Score=685
+2026-03-02 21:04:49,688 | INFO | Clicked | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_regular.jpg
+2026-03-02 21:19:51,887 | INFO | Bounce confirmed via streak | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_regular.jpg | Score=2283
+2026-03-02 21:19:52,753 | INFO | Clicked | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_regular.jpg
+2026-03-02 21:20:11,926 | INFO | Bounce confirmed via streak | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_regular.jpg | Score=2004
+2026-03-02 21:20:12,795 | INFO | Clicked | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_regular.jpg
+2026-03-03 14:13:33,021 | INFO | Bounce confirmed via streak | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_x10.jpg | Score=895
+2026-03-03 14:13:33,645 | INFO | Clicked | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_x10.jpg
+2026-03-03 14:25:59,553 | INFO | Bounce confirmed via streak | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_x7.jpg | Score=1648
+2026-03-03 14:26:00,379 | INFO | Clicked | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_x7.jpg
+2026-03-03 14:31:41,182 | INFO | Bounce confirmed via streak | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/still_chest_x3.jpg | Score=645
+2026-03-03 14:31:41,833 | INFO | Clicked | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/still_chest_x3.jpg
+2026-03-03 14:43:26,349 | INFO | Bounce confirmed via streak | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_x5.jpg | Score=1529
+2026-03-03 14:43:27,225 | INFO | Clicked | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_x5.jpg
+2026-03-03 14:48:09,111 | INFO | Bounce confirmed via streak | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_x5.jpg | Score=1275
+2026-03-03 14:48:09,744 | INFO | Clicked | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_x5.jpg
+2026-03-03 14:48:09,782 | INFO | Bounce confirmed via streak | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_x7.jpg | Score=2572
+2026-03-03 14:48:10,476 | INFO | Clicked | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_x7.jpg
+2026-03-03 15:20:40,465 | INFO | Bounce confirmed via streak | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_x7.jpg | Score=327
+2026-03-03 15:20:41,385 | INFO | Clicked | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_x7.jpg
+2026-03-03 17:14:50,456 | INFO | Bounce confirmed via streak | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_x7.jpg | Score=270
+2026-03-03 17:14:51,185 | INFO | Clicked | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_x7.jpg
+2026-03-03 17:20:32,164 | INFO | Bounce confirmed via streak | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_x5.jpg | Score=343
+2026-03-03 17:20:32,992 | INFO | Clicked | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_x5.jpg
+2026-03-03 17:22:06,870 | INFO | Bounce confirmed via streak | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_x5.jpg | Score=210
+2026-03-03 17:22:07,682 | INFO | Clicked | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_x5.jpg
+2026-03-03 17:22:40,896 | INFO | Bounce confirmed via streak | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_x5.jpg | Score=272
+2026-03-03 17:22:41,680 | INFO | Clicked | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_x5.jpg
+2026-03-03 17:23:27,615 | INFO | Bounce confirmed via streak | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_x5.jpg | Score=658
+2026-03-03 17:23:28,242 | INFO | Clicked | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_x5.jpg
+2026-03-03 17:49:11,684 | INFO | Bounce confirmed via streak | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_x7.jpg | Score=415
+2026-03-03 17:49:12,443 | INFO | Clicked | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_x7.jpg
+2026-03-03 17:53:31,160 | INFO | Bounce confirmed via streak | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_x5.jpg | Score=394
+2026-03-03 17:53:31,683 | INFO | Clicked | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_x5.jpg
+2026-03-03 18:00:20,099 | INFO | Bounce confirmed via streak | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_x7.jpg | Score=531
+2026-03-03 18:00:20,704 | INFO | Clicked | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_x7.jpg
+2026-03-03 18:01:12,753 | INFO | Bounce confirmed via streak | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_x7.jpg | Score=415
+2026-03-03 18:01:13,398 | INFO | Clicked | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_x7.jpg
+2026-03-03 18:02:05,699 | INFO | Bounce confirmed via streak | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_x7.jpg | Score=546
+2026-03-03 18:02:06,402 | INFO | Clicked | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_x7.jpg
+2026-03-03 18:04:14,149 | INFO | Bounce confirmed via streak | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_x7.jpg | Score=449
+2026-03-03 18:04:14,815 | INFO | Clicked | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_x7.jpg
+2026-03-03 18:08:01,665 | INFO | Bounce confirmed via streak | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_x7.jpg | Score=563
+2026-03-03 18:08:02,265 | INFO | Clicked | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_x7.jpg
+2026-03-04 00:25:19,465 | INFO | Bounce confirmed via streak | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_x7.jpg | Score=480
+2026-03-04 00:25:20,309 | INFO | Clicked | Chest=/media/aymen/01D1B91E9241FA90/EDUCATION/Python/chest_hunter/chest_templates/chest_x7.jpg

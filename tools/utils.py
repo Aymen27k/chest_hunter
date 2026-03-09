@@ -4,7 +4,7 @@ def item_location_clicking(image_path):
     # Initialize the mouse position
     x, y = pyautogui.position()
     try:
-        window_pop_up = pyautogui.locateOnScreen(image_path, confidence=0.8, grayscale=True)
+        window_pop_up = pyautogui.locateOnScreen(image_path, confidence=0.9, grayscale=True)
         if window_pop_up:
             center_x = window_pop_up.left + window_pop_up.width / 2
             center_y = window_pop_up.top + window_pop_up.height / 2

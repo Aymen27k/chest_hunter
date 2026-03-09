@@ -3,7 +3,7 @@ import pyautogui
 import cv2
 import numpy as np
 
-def detect_all_chests(templates: List[str], confidence: float = 0.8) -> List[Tuple[str, tuple]]:
+def detect_all_chests(templates: List[str], confidence: float = 0.9) -> List[Tuple[str, tuple]]:
     """
     Scans the screen for ALL instances of ALL templates.
     Returns a list of (template_name, (x, y, w, h))

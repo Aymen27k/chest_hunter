@@ -15,10 +15,7 @@ from tools.config import (
     LIKE_COOLDOWN
 )
 
-def main(with_likes=False):
-    # Debug print to verify argument passing
-    print(f"DEBUG: Internal 'with_likes' state is: {with_likes}")
-    
+def main(with_likes=False):    
     likes_given_current_stream = 0
     manager = ChestManager(distance_threshold=50, max_idle_time=15.0)
 
@@ -29,11 +26,11 @@ def main(with_likes=False):
     popup_interval = 5.0
 
     # Track the last time a like was given
-    last_like_time = 0 
+    last_like_time = 0
 
     try:
         print("Chest Hunter active. Monitoring for chests...")
-        
+
         while True:
             current_time = time.time()
 

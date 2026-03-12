@@ -221,3 +221,4 @@ dist/
 # Logs
 *.log
 hunter_log.txt
+build.txt

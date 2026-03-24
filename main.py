@@ -2,63 +2,105 @@ import time
 import os
 import argparse
 from log import log_event
-from tools.vision import detect_chests
-from tools.chest_class import Chest
-from tools.utils import item_location_clicking
-from tools.config import CHEST_TEMPLATES, LOWER_MOVEMENT_THRESHOLD, HIGHER_MOVEMENT_THRESHOLD, TEMPLATES_DIR, MAX_LIKES_PER_STREAM, LIKE_BUTTON_PATH, LIKE_COOLDOWN
+from tools.vision import detect_all_chests
+from tools.chest_class import ChestManager
+# 1. Import the singleton bridge instance
+from bridge import bridge
+from tools.config import (
+    CHEST_TEMPLATES,
+    LOWER_MOVEMENT_THRESHOLD,
+    HIGHER_MOVEMENT_THRESHOLD,
+    TEMPLATES_DIR,
+    MAX_LIKES_PER_STREAM,
+    LIKE_BUTTON_PATH,
+    LIKE_COOLDOWN
+)
 
-def main(with_likes=False):
+
+def main(with_likes=False):    
     likes_given_current_stream = 0
-    try:
-        chests: list[Chest] = detect_chests(CHEST_TEMPLATES)
-        while True:
-            for chest in chests:
-                print(f"Testing chest {chest.template} at {chest.coords}")          
-                if chest.is_bouncing(LOWER_MOVEMENT_THRESHOLD, HIGHER_MOVEMENT_THRESHOLD):
-                    log_event("Bounce detected", chest, chest.movement_score)
-                    print("Bounce detected → clicking")
-                    chest.click()
-                    log_event("Clicked", chest)
-                else:
-                    print("No bounce detected")
+    
+    # 2. DEPENDENCY INJECTION: Pass the bridge into the Manager!
+    # Now the Manager will pass it to every Chest it creates.
+    manager = ChestManager(bridge=bridge, distance_threshold=50, max_idle_time=25.0)
 
-                    # Handle pop-ups
-                    clicked_window_pop = item_location_clicking(os.path.join(TEMPLATES_DIR, "window_pop.jpg"))
-                    clicked_got_it = item_location_clicking(os.path.join(TEMPLATES_DIR, "got_it.jpg"))
-                    clicked_woohoo = item_location_clicking(os.path.join(TEMPLATES_DIR, "woohoo.jpg"))
+    last_scan_time = 0
+    scan_interval = 1.0
+    last_popup_check = 0
+    popup_interval = 5.0
+    last_like_time = 0
+
+    try:      
+        while True:
+            current_time = time.time()
+
+            # 1. VISION PHASE
+            if current_time - last_scan_time > scan_interval:
+                try:
+                    detected_coords = detect_all_chests(CHEST_TEMPLATES)
+                    before_count = len(manager.active_chests)
+                    manager.update_from_vision(detected_coords)
+                    after_count = len(manager.active_chests)
+
+                    if after_count > 0:
+                        if before_count != after_count:
+                            print(f"Registry Updated: Tracking {after_count} chest(s)")
+                        else:
+                            print(f"Status: {after_count} chest(s) monitored. Scanning for movement...")
+                except Exception:
+                    pass
+                last_scan_time = current_time
+
+            # 2. ANALYSIS & EXECUTION PHASE
+            active_chests = manager.get_active_chests()
+            for chest in active_chests:
+                try:
+                    # Chest now internally uses the bridge we injected at creation
+                    if chest.is_bouncing(LOWER_MOVEMENT_THRESHOLD, HIGHER_MOVEMENT_THRESHOLD):
+                        log_event("Bounce confirmed", chest, chest.movement_score)
+                        
+                        # 3. CLEANER CALL: Chest now knows how to click itself via bridge
+                        chest.click()
+                        log_event("Clicked", chest)
+                except Exception as bounce_err:
+                    print(f"Error checking bounce: {bounce_err}")
+
+            # 3. UTILITY PHASE (Pop-ups)
+            if current_time - last_popup_check > popup_interval:
+                try:
+                    clicked_window_pop = bridge.locate_and_click(os.path.join(TEMPLATES_DIR, "window_pop.jpg"))
+                    clicked_got_it = bridge.locate_and_click(os.path.join(TEMPLATES_DIR, "got_it.jpg"))
+                    clicked_woohoo = bridge.locate_and_click(os.path.join(TEMPLATES_DIR, "woohoo.jpg"))
 
                     if clicked_window_pop or clicked_got_it or clicked_woohoo:
-                        print("One or more pop-up buttons were found and clicked. Adding a short delay.")
+                        print("System: Cleared a pop-up window.")
+                        for c in active_chests:
+                            c.previous_frame = None
                         time.sleep(1)
+                except Exception:
+                    pass
+                last_popup_check = current_time
 
-                    # Handle likes if enabled
-                    if with_likes and likes_given_current_stream < MAX_LIKES_PER_STREAM:
-                        if item_location_clicking(LIKE_BUTTON_PATH):
+            # 4. LIKE PHASE
+            if with_likes and likes_given_current_stream < MAX_LIKES_PER_STREAM:
+                if current_time - last_like_time > LIKE_COOLDOWN:
+                    # Check if any chest is close to popping
+                    is_critical = any(c.bounce_streak >= 2 for c in active_chests)
+                    if not is_critical:
+                        if bridge.locate_and_click(LIKE_BUTTON_PATH):
                             likes_given_current_stream += 1
-                            print(f"Given {likes_given_current_stream}/{MAX_LIKES_PER_STREAM} likes in this stream.")
-                            time.sleep(LIKE_COOLDOWN)
+                            last_like_time = current_time
+                            print(f"Likes: {likes_given_current_stream}/{MAX_LIKES_PER_STREAM}")
 
-                    # Small delay to avoid CPU overload
-                    time.sleep(0.05)
+            time.sleep(0.05)
 
     except KeyboardInterrupt:
-        print("\nCtrl+C detected! Initiating graceful shutdown...")
-    except Exception as e:
-        print(f"An unexpected error occurred: {e}")
+        print("\nInitiating graceful shutdown...")
     finally:
-        print("Chest Hunter has stopped gracefully.")
+        print("Chest Hunter has stopped.")
 
 if __name__ == "__main__":
-    try:
-        parser = argparse.ArgumentParser(description="Chest Hunter Agent")
-        parser.add_argument(
-            "--with-likes",
-            action="store_true",
-            help="Enable automatic likes during the stream"
-        )
-        args = parser.parse_args()
-
-        main(with_likes=args.with_likes)
-    except KeyboardInterrupt:
-        # suppress traceback here
-        print("\nChest Hunter terminated by user. Goodbye.")
+    parser = argparse.ArgumentParser(description="Chest Hunter Agent")
+    parser.add_argument("--with-likes", action="store_true", default=False)
+    args = parser.parse_args()
+    main(with_likes=args.with_likes)

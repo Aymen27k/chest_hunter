@@ -76,7 +76,6 @@ class Chest:
                 self.bounce_streak = 0
                 status_msg = "RESET (NOISE)"
             else:
-                self.bounce_streak = 0 
                 status_msg = "IDLE"
 
             # 7. Debug Logging

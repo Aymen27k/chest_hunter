@@ -24,7 +24,7 @@ class Bridge:
         with tempfile.TemporaryDirectory() as tmp_dir:
             try:
                 subprocess.run(["cosmic-screenshot", "--interactive=false", "--notify=false", "--save-dir", tmp_dir],
-                               check=True, capture_output=True)
+                               check=True, capture_output=True, timeout=2.0)
                 time.sleep(0.10)
                 files = glob.glob(os.path.join(tmp_dir, "*"))
                 if not files: return None
@@ -33,6 +33,11 @@ class Bridge:
                 if region:
                     return img.crop((region[0], region[1], region[0] + region[2], region[1] + region[3]))
                 return img
+            except subprocess.TimeoutExpired:
+                # This is specifically where it catches the "Monitor Off" hang
+                print("[BRIDGE] Monitor appears to be OFF or sleeping. Waiting...")
+                time.sleep(5) # Throttle the loop so it doesn't spam the CPU while you're away
+                return None
             except Exception as e:
                 print(f"[BRIDGE ERROR] Screenshot failed: {e}")
                 return None

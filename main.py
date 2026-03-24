@@ -1,4 +1,5 @@
 import time
+import sys
 import os
 import argparse
 from log import log_event
@@ -29,14 +30,18 @@ def main(with_likes=False):
     last_popup_check = 0
     popup_interval = 5.0
     last_like_time = 0
+    dot_count = 1
 
     try:      
+        print("Initializing Vision System...")
+
         while True:
             current_time = time.time()
-
+            
             # 1. VISION PHASE
             if current_time - last_scan_time > scan_interval:
                 try:
+                    # Mocking the detection call for the structure
                     detected_coords = detect_all_chests(CHEST_TEMPLATES)
                     before_count = len(manager.active_chests)
                     manager.update_from_vision(detected_coords)
@@ -44,12 +49,30 @@ def main(with_likes=False):
 
                     if after_count > 0:
                         if before_count != after_count:
-                            print(f"Registry Updated: Tracking {after_count} chest(s)")
+                            # Print on a new line if the registry actually changes
+                            print(f"\n[!] Registry Updated: Tracking {after_count} chest(s)")
                         else:
-                            print(f"Status: {after_count} chest(s) monitored. Scanning for movement...")
-                except Exception:
+                            # Generate the dots (1, 2, or 3)
+                            dots = "." * dot_count
+                            sys.stdout.write(f"\rStatus: {after_count} chest(s) monitored. Scanning{dots}   ")
+                            sys.stdout.flush()
+                            
+                            # Cycle: 1 -> 2 -> 3 -> 1
+                            dot_count = (dot_count % 3) + 1
+                    else:
+                        sys.stdout.write(f"\rStatus: No chests detected. Searching{'.' * dot_count}   ")
+                        sys.stdout.flush()
+                        dot_count = (dot_count % 3) + 1
+
+                except Exception as e:
+                    # Useful for debugging if vision fails
+                    print(f"Error: {e}")
                     pass
+
                 last_scan_time = current_time
+            
+            # Small sleep to prevent CPU hogging while waiting for the next scan interval
+            time.sleep(0.1)
 
             # 2. ANALYSIS & EXECUTION PHASE
             active_chests = manager.get_active_chests()
@@ -58,7 +81,7 @@ def main(with_likes=False):
                     # Chest now internally uses the bridge we injected at creation
                     if chest.is_bouncing(LOWER_MOVEMENT_THRESHOLD, HIGHER_MOVEMENT_THRESHOLD):
                         log_event("Bounce confirmed", chest, chest.movement_score)
-                        
+
                         # 3. CLEANER CALL: Chest now knows how to click itself via bridge
                         chest.click()
                         log_event("Clicked", chest)

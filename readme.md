@@ -2,6 +2,19 @@
 
 A high-performance, resilient automation tool designed for Linux (Wayland/COSMIC & X11). Optimized for low-latency environments like **Younow**.
 
+## Description
+
+**Chest Hunter** is a sophisticated computer-vision-based automation tool designed to monitor and interact with live streams on the [YouNow](https://www.younow.com) platform. Developed to solve the challenge of missing time-sensitive "Chest" drops during multitasking, the project evolved from a simple procedural script into a robust Object-Oriented system capable of managing multiple targets simultaneously.
+
+The core logic utilizes **OpenCV** and template matching to identify chest spawns across secondary displays. Unlike standard click-bots, Chest Hunter implements a custom **Resilience Engine** to filter out environmental noise—such as workspace swiping or UI pop-ups—ensuring interactions only occur when consistent movement "streaks" are detected.
+
+## Key Technical Achievements:
+
+* **Multi-Object Tracking (MOT):** A specialized `Manager` class handles the lifecycle of multiple `Chest` instances, using coordinate-distance mathematics to distinguish between new targets and existing ones.
+* **Wayland Compatibility Bridge:** Overcame the strict security and display limitations of the Wayland protocol by implementing a **ydotool** system service. This allows for low-level mouse control that standard libraries like PyAutoGUI cannot achieve on modern Linux environments.
+* **Dual-Monitor Calibration:** Solves the "coordinate offset" issue inherent in multi-monitor Linux setups through a custom calibration ratio and a **3-step transition algorithm** that allows the cursor to traverse virtual screen boundaries accurately.
+* **Intelligent Filtering:** Includes a built-in "Noise vs. Motion" logic that prevents false positives by requiring consistent movement patterns before a click is triggered.
+
 ## 🚀 Key Features
 
 ### 1. Unified Linux Compatibility

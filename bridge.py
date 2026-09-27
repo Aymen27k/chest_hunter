@@ -9,12 +9,7 @@ import cv2
 
 class Bridge:
     def __init__(self):
-        # Your primary monitor width boundary
-        self.primary_width = 1920
-
-        # --- UNIFIED COSMIC CALIBRATION RATIOS ---
-        self.cal_x = 850 / 3539  # Base matrix scale (~0.23358)
-        self.cal_y = 360 / 717   # Base matrix scale (~0.50209)
+        pass
 
     def get_screenshot(self, region=None):
         """Captures the desktop using cosmic-screenshot."""
@@ -38,51 +33,84 @@ class Bridge:
                 print(f"[BRIDGE ERROR] Screenshot failed: {e}")
                 return None
 
+    def _go_to_far_left(self):
+        """Forces the cursor to Monitor 2 (Far Left) via controlled stepping hops."""
+        # Hop 1: Ensure we step at least one monitor left
+        subprocess.run(["ydotool", "mousemove", "-a", "0", "0"], check=True)
+        time.sleep(0.01)
+        subprocess.run(["ydotool", "mousemove", "--", "-900", "0"], check=True)
+        time.sleep(0.01)
+        
+        # Hop 2: Ensure we hit Monitor 2 even if starting from Monitor 3
+        subprocess.run(["ydotool", "mousemove", "-a", "0", "0"], check=True)
+        time.sleep(0.01)
+        subprocess.run(["ydotool", "mousemove", "--", "-900", "0"], check=True)
+        time.sleep(0.01)
+
+        # Lock to Monitor 2 origin
+        subprocess.run(["ydotool", "mousemove", "-a", "0", "0"], check=True)
+        time.sleep(0.01)
+
     def click_at(self, raw_x, raw_y, is_like=False):
         """
-        Smooth Non-Linear Scaling Logic:
-        Dynamically adjusts scale factor based on horizontal position (raw_x)
-        to handle COSMIC's edge compression without sharp boundary jumps.
+        Uses controlled stepping hops to navigate to any monitor,
+        re-anchors to local (0,0), and clicks the exact target.
         """
-        # 1. Uniform Y scaling
-        target_y = int(raw_y * self.cal_y)
+        # 1. Reset baseline to Monitor 2 (Far Left)
+        self._go_to_far_left()
 
-        # 2. Dynamic X Scaling
-        if is_like:
-            # Dedicated override for Far-Right Like Button
-            target_x = int(int(raw_x * self.cal_x) * (330 / 594))
-        else:
-            # Interpolated multiplier: Smoothly transitions based on screen position
-            # Left region (raw_x <= 3100) scales around ~0.15135
-            # Right/Center region (raw_x > 3100) uses your verified base self.cal_x (~0.23358)
-            if raw_x <= 3100:
-                # Smooth transition factor approaching the left anchor
-                ratio = raw_x / 2775.0
-                scale_x = 0.15135 * ratio
+        # 2. Determine target monitor and step right as needed
+        if raw_x < 1920:
+            # Monitor 2 (Left) - Already at Monitor 2 origin
+            monitor_name = "Monitor 2 (Left)"
+            if raw_x > 1300:
+                target_x, target_y = 860, 350
             else:
-                scale_x = self.cal_x
+                target_x, target_y = 365, 350
 
-            target_x = int(raw_x * scale_x)
+        elif raw_x < 3840:
+            # Monitor 1 (Center) - Step right once
+            monitor_name = "Monitor 1 (Center)"
+            subprocess.run(["ydotool", "mousemove", "965", "0"], check=True)
+            time.sleep(0.01)
+            subprocess.run(["ydotool", "mousemove", "-a", "0", "0"], check=True)
+            time.sleep(0.01)
 
+            if raw_x > 3200:
+                target_x, target_y = 850, 365
+            else:
+                target_x, target_y = 370, 365
+
+        else:
+            # Monitor 3 (Right) - Step right twice
+            monitor_name = "Monitor 3 (Right)"
+            # Hop to Monitor 1
+            subprocess.run(["ydotool", "mousemove", "965", "0"], check=True)
+            time.sleep(0.01)
+            subprocess.run(["ydotool", "mousemove", "-a", "0", "0"], check=True)
+            time.sleep(0.01)
+            # Hop to Monitor 3
+            subprocess.run(["ydotool", "mousemove", "965", "0"], check=True)
+            time.sleep(0.01)
+            subprocess.run(["ydotool", "mousemove", "-a", "0", "0"], check=True)
+            time.sleep(0.01)
+
+            if raw_x > 5000:
+                target_x, target_y = 880, 350
+            else:
+                target_x, target_y = 380, 350
+
+        # 3. Final offset movement & click
         try:
-            # Inter-monitor jump
-            subprocess.run(["ydotool", "mousemove", "1100", "0"], check=True)
-            time.sleep(0.05) 
-
-            # Target move
             subprocess.run(["ydotool", "mousemove", "-a", str(target_x), str(target_y)], check=True)
-        except Exception as e:
-            print(f"[ERROR] Monitor jump or move failed: {e}")
-
-        # Final Execution Click
-        try:
-            time.sleep(0.2)
+            time.sleep(0.15)
             subprocess.run(["ydotool", "click", "0xc0"], check=True)
+            print(f"[BRIDGE] [{monitor_name}] Auto-stepped & Clicked at (-a {target_x} {target_y}) for RAW X: {raw_x}")
         except Exception as e:
             print(f"[ERROR] Click execution failed: {e}")
 
     def locate_and_click(self, template_path, confidence=0.8, region=None, is_like=False):
-        """Vision engine: Now tunnels the is_like flag down to the absolute clicker."""
+        """Vision engine: Detects chest and triggers dynamic stepping click."""
         screen = self.get_screenshot(region=region)
         if not screen: return False
         
@@ -105,7 +133,6 @@ class Bridge:
                 cy += region[1]
                 
             print(f"[DIAGNOSTIC] Vision found target at RAW: ({cx}, {cy})")
-            # Pass the override flag straight down to the coordinate processor
             self.click_at(cx, cy, is_like=is_like)
             return True
             

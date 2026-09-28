@@ -53,36 +53,36 @@ class Bridge:
 
     def click_at(self, raw_x, raw_y, is_like=False):
         """
-        Uses controlled stepping hops to navigate to any monitor,
-        re-anchors to local (0,0), and clicks the exact target.
+        Navigates to the target monitor using controlled stepping hops,
+        re-anchors to local (0,0), and calculates dynamic target coordinates
+        using per-monitor 2-point linear scaling for BOTH X and Y axes.
         """
         # 1. Reset baseline to Monitor 2 (Far Left)
         self._go_to_far_left()
 
-        # 2. Determine target monitor and step right as needed
+        # 2. Identify monitor, step right, and scale within LOCAL (0..1920) space
         if raw_x < 1920:
-            # Monitor 2 (Left) - Already at Monitor 2 origin
+            # Monitor 2 (Left) - Already at local (0,0)
             monitor_name = "Monitor 2 (Left)"
-            if raw_x > 1300:
-                target_x, target_y = 860, 350
-            else:
-                target_x, target_y = 365, 350
+            local_x = raw_x
+            
+            target_x = int(0.50679 * local_x - 14.59)
+            target_y = int(0.48961 * raw_y + 8.25)
 
         elif raw_x < 3840:
-            # Monitor 1 (Center) - Step right once
+            # Monitor 1 (Center) - Step right once to origin (0,0)
             monitor_name = "Monitor 1 (Center)"
             subprocess.run(["ydotool", "mousemove", "965", "0"], check=True)
             time.sleep(0.01)
             subprocess.run(["ydotool", "mousemove", "-a", "0", "0"], check=True)
             time.sleep(0.01)
 
-            if raw_x > 3200:
-                target_x, target_y = 850, 365
-            else:
-                target_x, target_y = 370, 365
+            local_x = raw_x - 1920
+            target_x = int(0.50157 * local_x - 5.68)
+            target_y = int(0.51929 * raw_y - 14.08)
 
         else:
-            # Monitor 3 (Right) - Step right twice
+            # Monitor 3 (Right) - Step right twice to origin (0,0)
             monitor_name = "Monitor 3 (Right)"
             # Hop to Monitor 1
             subprocess.run(["ydotool", "mousemove", "965", "0"], check=True)
@@ -95,19 +95,24 @@ class Bridge:
             subprocess.run(["ydotool", "mousemove", "-a", "0", "0"], check=True)
             time.sleep(0.01)
 
-            if raw_x > 5000:
-                target_x, target_y = 880, 350
-            else:
-                target_x, target_y = 380, 350
+            local_x = raw_x - 3840
+            target_x = int(0.49112 * local_x + 12.15)
+            target_y = int(0.52174 * raw_y - 14.17)
 
-        # 3. Final offset movement & click
+        # Safety clamp to prevent out-of-bounds Y moves
+        target_y = max(0, min(1080, target_y))
+
+        # 3. Dynamic offset movement & click execution
         try:
             subprocess.run(["ydotool", "mousemove", "-a", str(target_x), str(target_y)], check=True)
-            time.sleep(0.15)
+            
+            # Compositor settling buffer
+            time.sleep(0.15) 
+
             subprocess.run(["ydotool", "click", "0xc0"], check=True)
-            print(f"[BRIDGE] [{monitor_name}] Auto-stepped & Clicked at (-a {target_x} {target_y}) for RAW X: {raw_x}")
+            print(f"[BRIDGE] [{monitor_name}] Scaled Click at (-a {target_x} {target_y}) for RAW ({raw_x}, {raw_y}) [Local X: {local_x}]")
         except Exception as e:
-            print(f"[ERROR] Click execution failed: {e}")
+            print(f"[ERROR] Dynamic click execution failed: {e}")
 
     def locate_and_click(self, template_path, confidence=0.8, region=None, is_like=False):
         """Vision engine: Detects chest and triggers dynamic stepping click."""

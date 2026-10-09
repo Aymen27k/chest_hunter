@@ -53,14 +53,13 @@ class Bridge:
 
     def click_at(self, raw_x, raw_y, is_like=False):
         """
-        Navigates to the target monitor using controlled stepping hops,
-        re-anchors to local (0,0), and calculates dynamic target coordinates
-        using per-monitor 2-point linear scaling for BOTH X and Y axes.
+        Navigates to the target monitor using calibrated stepping hops (1100),
+        re-anchors to local (0,0), and calculates dynamic target coordinates.
         """
         # 1. Reset baseline to Monitor 2 (Far Left)
         self._go_to_far_left()
 
-        # 2. Identify monitor, step right, and scale within LOCAL (0..1920) space
+        # 2. Identify monitor, step right using calibrated 1100 hop value
         if raw_x < 1920:
             # Monitor 2 (Left) - Already at local (0,0)
             monitor_name = "Monitor 2 (Left)"
@@ -70,9 +69,9 @@ class Bridge:
             target_y = int(0.48961 * raw_y + 8.25)
 
         elif raw_x < 3840:
-            # Monitor 1 (Center) - Step right once to origin (0,0)
+            # Monitor 1 (Center) - Step right once into Monitor 1
             monitor_name = "Monitor 1 (Center)"
-            subprocess.run(["ydotool", "mousemove", "965", "0"], check=True)
+            subprocess.run(["ydotool", "mousemove", "1100", "0"], check=True)
             time.sleep(0.01)
             subprocess.run(["ydotool", "mousemove", "-a", "0", "0"], check=True)
             time.sleep(0.01)
@@ -82,15 +81,15 @@ class Bridge:
             target_y = int(0.51929 * raw_y - 14.08)
 
         else:
-            # Monitor 3 (Right) - Step right twice to origin (0,0)
+            # Monitor 3 (Right) - Step right twice using 1100 to reach Monitor 3
             monitor_name = "Monitor 3 (Right)"
-            # Hop to Monitor 1
-            subprocess.run(["ydotool", "mousemove", "965", "0"], check=True)
+            # Hop 1 -> Monitor 1
+            subprocess.run(["ydotool", "mousemove", "1100", "0"], check=True)
             time.sleep(0.01)
             subprocess.run(["ydotool", "mousemove", "-a", "0", "0"], check=True)
             time.sleep(0.01)
-            # Hop to Monitor 3
-            subprocess.run(["ydotool", "mousemove", "965", "0"], check=True)
+            # Hop 2 -> Monitor 3
+            subprocess.run(["ydotool", "mousemove", "1100", "0"], check=True)
             time.sleep(0.01)
             subprocess.run(["ydotool", "mousemove", "-a", "0", "0"], check=True)
             time.sleep(0.01)
@@ -99,16 +98,13 @@ class Bridge:
             target_x = int(0.49112 * local_x + 12.15)
             target_y = int(0.52174 * raw_y - 14.17)
 
-        # Safety clamp to prevent out-of-bounds Y moves
+        # Safety clamp
         target_y = max(0, min(1080, target_y))
 
         # 3. Dynamic offset movement & click execution
         try:
             subprocess.run(["ydotool", "mousemove", "-a", str(target_x), str(target_y)], check=True)
-            
-            # Compositor settling buffer
             time.sleep(0.15) 
-
             subprocess.run(["ydotool", "click", "0xc0"], check=True)
             print(f"[BRIDGE] [{monitor_name}] Scaled Click at (-a {target_x} {target_y}) for RAW ({raw_x}, {raw_y}) [Local X: {local_x}]")
         except Exception as e:
